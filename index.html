@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Nischal Bhandari — Software engineer building automation platforms, enterprise tools, and grounded AI agents." />
+  <title>Nischal Bhandari</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <a class="skip" href="#work">Skip to work</a>
+
+  <header class="site-nav" data-nav>
+    <a class="nav-brand" href="#top">Nischal</a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="#work">Work</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero" aria-label="Introduction">
+      <div class="hero-media" aria-hidden="true">
+        <img src="hero-field.jpg" alt="" class="hero-img" />
+        <div class="hero-wash"></div>
+        <div class="hero-grain"></div>
+      </div>
+
+      <div class="hero-inner">
+        <p class="hero-brand">Nischal Bhandari</p>
+        <h1 class="hero-headline">Systems that hold under real load.</h1>
+        <p class="hero-support">
+          Software engineer in Austin. Automation platforms, enterprise integrations, and grounded AI agents for ops teams that need reliability—not demos.
+        </p>
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="#work">See the work</a>
+          <a class="btn btn-ghost" href="mailto:nischalbhandari73@gmail.com">Email</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="work" class="section work">
+      <header class="section-head">
+        <p class="eyebrow">Experience</p>
+        <h2>Where the work shipped</h2>
+      </header>
+
+      <article class="role" data-reveal>
+        <div class="role-aside">
+          <h3>Four Hands</h3>
+          <p class="role-title">Software Engineer</p>
+          <p class="role-when">Jul 2025 – Present</p>
+          <p class="role-place">Austin, TX</p>
+        </div>
+        <div class="role-main">
+          <p class="role-lead">Promoted from QA Automation Intern. Own automation platforms and EDI product tools used by Sales Ops and EDI engineers.</p>
+          <ul>
+            <li>Playwright/Selenium frameworks across D365 F&amp;O, Salesforce, and eCommerce — <strong>500+ E2E tests</strong>, Azure DevOps CI, BrowserStack Automate.</li>
+            <li>Shipped <strong>FH Connect Hub</strong>: Mentis GraphQL autofill, Azure OCR, Jira/Confluence, Entra ID, Playwright, VPS deploy.</li>
+            <li>Grounded EDI assistant — n8n tool-calling, local PII scrub, on-VPS Ollama/Qwen (llama.cpp fallback).</li>
+            <li>Python X12 compare workbench for CLEO→D365 migration (27 partners); n8n error triage; Next.js lab showcase.</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="role" data-reveal>
+        <div class="role-aside">
+          <h3>Prosway</h3>
+          <p class="role-title">Full-Stack Engineer</p>
+          <p class="role-when">Contract / Intern</p>
+        </div>
+        <div class="role-main">
+          <ul>
+            <li>Production real-estate platform — FastAPI, PostgreSQL, auth, Pytest, responsive UI.</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="role" data-reveal>
+        <div class="role-aside">
+          <h3>ZT Systems</h3>
+          <p class="role-title">QA — Server Validation</p>
+          <p class="role-when">Internship</p>
+        </div>
+        <div class="role-main">
+          <ul>
+            <li>Python/Bash RAID &amp; BIOS automation — ~30% less manual effort; 75+ hardware config issues resolved with engineering.</li>
+          </ul>
+        </div>
+      </article>
+    </section>
+
+    <section id="projects" class="section projects">
+      <header class="section-head">
+        <p class="eyebrow">Projects</p>
+        <h2>Tools I designed end to end</h2>
+      </header>
+
+      <div class="project-rail">
+        <a class="proj" href="https://github.com/zkyko/fh-Axis" target="_blank" rel="noopener noreferrer" data-reveal>
+          <span class="proj-num">01</span>
+          <h3>FH-Axis / QA Studio</h3>
+          <p>Automation execution platform — author, orchestrate, and run large suites with CI reporting.</p>
+          <span class="proj-meta">TypeScript · Playwright</span>
+        </a>
+        <a class="proj" href="https://github.com/zkyko/D365-Recorder" target="_blank" rel="noopener noreferrer" data-reveal>
+          <span class="proj-num">02</span>
+          <h3>D365 Recorder</h3>
+          <p>Record → generate → run for Dynamics 365 F&amp;O. Locator registry for stable enterprise UI tests.</p>
+          <span class="proj-meta">Playwright · D365</span>
+        </a>
+        <div class="proj" data-reveal>
+          <span class="proj-num">03</span>
+          <h3>Four Hands EDI Lab</h3>
+          <p>Onboarding portal, X12 workbench, n8n triage, local LLM assistant, stakeholder showcase on VPS.</p>
+          <span class="proj-meta">Node · Python · Ollama</span>
+        </div>
+        <a class="proj" href="https://github.com/zkyko/QA-playwright-automation" target="_blank" rel="noopener noreferrer" data-reveal>
+          <span class="proj-num">04</span>
+          <h3>Playwright + Actions</h3>
+          <p>Reusable template: scheduled runs, artifacts, failure triage in GitHub Actions.</p>
+          <span class="proj-meta">Playwright · CI</span>
+        </a>
+        <div class="proj" data-reveal>
+          <span class="proj-num">05</span>
+          <h3>Macro Dashboard</h3>
+          <p>Streamlit research assistant — FRED data, Fed speeches, LLM-mapped natural-language charts.</p>
+          <span class="proj-meta">Python · LLM</span>
+        </div>
+        <a class="proj" href="https://github.com/zkyko/MCP" target="_blank" rel="noopener noreferrer" data-reveal>
+          <span class="proj-num">06</span>
+          <h3>MCP Experiments</h3>
+          <p>Model Context Protocol prototypes for orchestration and test/data analysis.</p>
+          <span class="proj-meta">MCP · Tooling</span>
+        </a>
+      </div>
+    </section>
+
+    <section id="skills" class="section skills">
+      <header class="section-head">
+        <p class="eyebrow">Stack</p>
+        <h2>What I reach for</h2>
+      </header>
+      <p class="skills-line" data-reveal>
+        <span>TypeScript</span><span>Python</span><span>Playwright</span><span>Node</span><span>FastAPI</span><span>React</span><span>Next.js</span><span>PostgreSQL</span><span>n8n</span><span>Ollama</span><span>Azure DevOps</span><span>BrowserStack</span><span>Jira</span><span>GraphQL</span><span>EDI / X12</span><span>D365 F&amp;O</span>
+      </p>
+    </section>
+
+    <section id="contact" class="section contact">
+      <div class="contact-panel" data-reveal>
+        <p class="eyebrow">Contact</p>
+        <h2>Let’s talk.</h2>
+        <p class="contact-lead">Open to software engineering and applied AI roles — Austin or London. Visa sponsorship welcome. Authorized to work in the U.S.</p>
+        <div class="contact-links">
+          <a href="mailto:nischalbhandari73@gmail.com">nischalbhandari73@gmail.com</a>
+          <a href="tel:+15127792564">(512) 779-2564</a>
+          <a href="https://github.com/zkyko" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a href="https://www.linkedin.com/in/nischal-bhandari-09187a29b/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        </div>
+        <p class="edu">B.S. Computer Science &amp; Mathematics — Texas State University, 2025</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <span>© 2026 Nischal Bhandari</span>
+    <span class="mark">zkyko</span>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
