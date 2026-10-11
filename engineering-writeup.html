@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Silent failures: the bugs my own automation hid from me — Nischal Bhandari</title>
+<style>
+  :root { --fg: #1a1a1a; --muted: #57606a; --accent: #0b5394; --border: #d0d7de; --code: #f6f8fa; }
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 48px 20px 80px; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; line-height: 1.7; color: var(--fg); background: #fff; }
+  .wrap { max-width: 720px; margin: 0 auto; }
+  header { margin-bottom: 32px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+  header .name { font-weight: 700; font-size: 0.95rem; }
+  header .meta { color: var(--muted); font-size: 0.85rem; }
+  h1 { font-size: 1.9rem; line-height: 1.25; margin: 0 0 8px; }
+  .lede { color: var(--muted); font-size: 1.05rem; margin: 0 0 32px; }
+  h2 { font-size: 1.3rem; margin: 40px 0 12px; padding-top: 8px; }
+  p { margin: 0 0 16px; }
+  code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace; font-size: 0.85em; background: var(--code); padding: 2px 5px; border-radius: 4px; }
+  pre { background: var(--code); border: 1px solid var(--border); border-radius: 6px; padding: 14px 16px; overflow-x: auto; font-size: 0.82rem; line-height: 1.55; margin: 0 0 16px; }
+  pre code { background: none; padding: 0; }
+  blockquote { margin: 0 0 16px; padding: 4px 0 4px 16px; border-left: 3px solid var(--border); color: var(--muted); }
+  ul, ol { margin: 0 0 16px; padding-left: 24px; }
+  li { margin-bottom: 8px; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  hr { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+  .foot { margin-top: 40px; padding-top: 16px; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.9rem; }
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="name">Nischal Bhandari</div>
+  <div class="meta">Software Engineer · October 2026</div>
+</header>
+
+<h1>Silent failures: the bugs my own automation hid from me</h1>
+<p class="lede">The bugs I'm most afraid of aren't the ones that throw errors. A red build is loud — someone notices, someone fixes it. A green build that's lying is quiet, and it can ship wrong behavior for weeks.</p>
+
+<p>Last year I built and ran three AI systems in production at Four Hands — a test-generation pipeline, an automated PR reviewer, and a request-to-PR workflow. Most of the hard work wasn't the "AI" part. It was finding and killing the silent failures. Here are three of them, and what they taught me.</p>
+
+<h2>1. The deploys that didn't deploy</h2>
+<p>My ticket-ingestion Logic App kept running the <em>old</em> model-based categorization logic — even though I'd replaced it with a deterministic tag check, redeployed, restarted the app service, and done a full stop/start cycle. The deployed file on disk was verified correct via a direct read, so the old code path <em>should</em> have been gone. To prove it was still running, I pulled the actual stored output for a ticket:</p>
+<pre><code>"Reasoning": "Ticket explicitly tests a non-Salesforce website with no
+Salesforce login or functionality involved."
+"IsSalesforce": "False"</code></pre>
+<p>That's genuine LLM-written reasoning — and factually wrong under the deterministic logic, which would have marked it <code>True</code> instantly from the <code>[salesforce-qa]</code> tag in the summary. The old model-based path was definitively still executing in production.</p>
+<p><strong>Root cause:</strong> <code>build_workflow.py</code> had a stray backslash in the <code>$schema</code> key — <code>"\$schema"</code> instead of <code>"$schema"</code> — probably there since the first version of the script. It's still <em>syntactically valid JSON</em>, and <code>json.tool</code> was the only check I'd ever run against the file. So every "VALID_JSON" confirmation passed while the platform silently refused to reload the running definition. Dozens of "successful" redeploys had changed nothing at runtime.</p>
+<p><strong>Fix:</strong> corrected the key, deleted the old workflow entirely, redeployed fresh. The lesson stuck: <em>syntactic validity says nothing about semantic correctness.</em> A JSON validator will happily bless a malformed <code>$schema</code> value.</p>
+
+<h2>2. The fallback that lied</h2>
+<p>I added a "content-sufficiency" gate — before generating a test, check that the ticket actually contains enough to test. The first real pipeline run silently fell back to <code>sufficient: true</code> on <em>every</em> ticket.</p>
+<p>The bug: <code>AOAI_ENDPOINT</code> as a pipeline variable had no trailing slash (unlike the raw value <code>az cognitiveservices account show</code> returns), so string concatenation produced <code>...azure.comopenai/...</code>. Not a local-test problem — I only caught it because the <em>real</em> task log showed:</p>
+<pre><code>getaddrinfo ENOTFOUND salesforceqa-ai.services.ai.azure.comopenai</code></pre>
+<p>I'd assumed from a local test that happened to use the slash-terminated form. The real environment didn't, and instead of failing loudly, the gate just silently said "yes, sufficient" to everything. The fallback was masking the outage.</p>
+
+<h2>3. The error report that reported nothing</h2>
+<p>When a generated test failed, the "Last error" in the Jira comment was <code>lastError.slice(0, 500)</code> — the <em>first</em> 500 characters of captured stdout. In practice, that entire range is BrowserStack SDK startup boilerplate ("Reading configs...", "SDK run started with id: ..."). The actual Playwright failure reason came <em>after</em> that, and never made it into the report at all. A user pasted in a real example: the whole "Last error" was startup logging, cut off mid-string. The thing we'd built to tell us <em>why</em> tests failed was, itself, silently broken.</p>
+
+<hr>
+
+<h2>What I built because of this: real failure diagnosis</h2>
+<p>These three failures shared a root theme — when something goes wrong, the system's first instinct is to hide it. So I rebuilt the failure path around one question: <strong>is this a bug in the test, or a bug in the app?</strong></p>
+<p>On final failure, instead of dumping a truncated slice, the pipeline now:</p>
+<ol>
+  <li>Fetches the <em>actual text</em> of BrowserStack's console and Playwright logs for the failing session (not just the links).</li>
+  <li>Sends the generated test code, the full raw error, and those logs to a model with an explicit instruction: <em>is this a real app problem, or a test-script problem (bad selector, timing, strict-mode violation, wrong assumption)?</em></li>
+  <li>Makes that diagnosis the Jira comment and the PR description.</li>
+</ol>
+<p>And it works. Re-running a known-failing ticket, the diagnosis came back:</p>
+<blockquote>This is a test-script problem — specifically a wrong assumption about the page flow, not a real app outage. The username field passed, but the password locator timed out... Salesforce's stage login shows only the username field first; the password field only appears after the user submits the username.</blockquote>
+<p>The page had loaded fine the whole time — confirmed by watching the recording. The <em>test's assumption</em> about the login flow was wrong. That's exactly the kind of thing a video alone doesn't surface, and exactly the kind of thing that separates "the test is broken" from "the product is broken."</p>
+
+<h2>What I take into every system now</h2>
+<ol>
+  <li><strong>Deterministic gates before anything expensive.</strong> Tag checks and content checks are free and don't call a model. Every ticket passes them before a single token is spent.</li>
+  <li><strong>Never trust a fallback to be honest.</strong> If a step can silently degrade to a default, instrument it so the default is visible.</li>
+  <li><strong>Validate against the real log, not the local test.</strong> <code>getaddrinfo ENOTFOUND</code> was in the production log, not my dev box.</li>
+  <li><strong>"Valid JSON" ≠ "correct JSON."</strong> A validator checks syntax, not intent.</li>
+  <li><strong>A failed run should still produce an artifact.</strong> The pipeline now always opens a PR — a failing run gets <code>[NEEDS REVIEW — TEST FAILING]</code> with the real diagnosis, instead of vanishing into a single Jira comment and losing 90%-right generated code.</li>
+</ol>
+<p>None of this is glamorous. But this is what "shipping AI systems in production" actually means: 20% model calls and 80% making sure the thing doesn't silently lie to you.</p>
+
+<div class="foot">Want to talk about any of this? <a href="mailto:nischalbhandari73@gmail.com">nischalbhandari73@gmail.com</a> · <a href="https://github.com/zkyko">github.com/zkyko</a></div>
+</div>
+</body>
+</html>
