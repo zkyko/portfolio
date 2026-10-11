@@ -1,176 +1,540 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Nischal Bhandari — Software engineer building automation platforms, enterprise tools, and grounded AI agents." />
-  <title>Nischal Bhandari</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nischal Bhandari — I find problems. I build solutions.</title>
+<meta name="description" content="Nischal Bhandari — software engineer in Austin, TX. I build internal platforms, AI agents, and automation that remove manual work from real operations.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230a0f0c'/%3E%3Ctext x='16' y='23' font-family='monospace' font-size='18' font-weight='bold' fill='%2334d399' text-anchor='middle'%3E%26gt;_%3C/text%3E%3C/svg%3E">
+
+<style>
+@font-face{font-family:'Space Grotesk';font-style:normal;font-weight:400;src:url(fonts/space-grotesk400.woff2) format('woff2');font-display:swap}
+@font-face{font-family:'Space Grotesk';font-style:normal;font-weight:500;src:url(fonts/space-grotesk500.woff2) format('woff2');font-display:swap}
+@font-face{font-family:'Space Grotesk';font-style:normal;font-weight:600;src:url(fonts/space-grotesk600.woff2) format('woff2');font-display:swap}
+@font-face{font-family:'Space Grotesk';font-style:normal;font-weight:700;src:url(fonts/space-grotesk700.woff2) format('woff2');font-display:swap}
+@font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:400;src:url(fonts/jetbrains-mono400.woff2) format('woff2');font-display:swap}
+@font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:500;src:url(fonts/jetbrains-mono500.woff2) format('woff2');font-display:swap}
+@font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:700;src:url(fonts/jetbrains-mono700.woff2) format('woff2');font-display:swap}
+
+:root{
+  --bg:#0a0f0c;
+  --bg2:#0d130f;
+  --surface:#101a14;
+  --surface2:#152119;
+  --ink:#e7ede8;
+  --muted:#92a69a;
+  --faint:#5d6d62;
+  --line:#1c2a22;
+  --line2:#294034;
+  --accent:#34d399;
+  --accent-soft:rgba(52,211,153,.13);
+  --accent-line:rgba(52,211,153,.28);
+  --amber:#f0b647;
+  --red:#f0716f;
+  --sans:'Space Grotesk',system-ui,-apple-system,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,'SF Mono',monospace;
+  --pad:clamp(1.2rem,4.5vw,3rem);
+  --max:1120px;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-size:1.02rem;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  background-image:
+    radial-gradient(1200px 600px at 80% -10%, rgba(52,211,153,.05), transparent 60%),
+    radial-gradient(900px 500px at -10% 30%, rgba(52,211,153,.03), transparent 55%);
+}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+::selection{background:var(--accent);color:#04110a}
+
+/* ---------- status bar ---------- */
+.statusbar{
+  position:sticky;top:0;z-index:50;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:.55rem var(--pad);
+  font-family:var(--mono);font-size:.78rem;
+  background:rgba(10,15,12,.82);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+  color:var(--muted);
+}
+.statusbar .brand{color:var(--ink);font-weight:600}
+.statusbar .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--accent);margin-right:.5rem;box-shadow:0 0 8px var(--accent);animation:pulse 2.4s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+.statusbar .right{display:flex;gap:1.2rem}
+@media(max-width:640px){.statusbar .right .hide-sm{display:none}}
+
+main{max-width:var(--max);margin:0 auto;padding:0 var(--pad)}
+
+/* ---------- hero ---------- */
+.hero{
+  display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(1.5rem,4vw,3.5rem);
+  align-items:center;
+  padding:clamp(2.5rem,7vh,5rem) 0 clamp(2.5rem,6vh,4rem);
+}
+.kicker{
+  font-family:var(--mono);font-size:.8rem;color:var(--accent);
+  letter-spacing:.04em;margin:0 0 1rem;
+}
+.kicker .tilde{color:var(--faint)}
+.hero h1{
+  margin:0;font-size:clamp(2.5rem,6.4vw,4.6rem);
+  font-weight:700;line-height:1.02;letter-spacing:-.035em;
+}
+.hero h1 .accent{color:var(--accent)}
+.hero .sub{
+  margin:1.3rem 0 0;max-width:44ch;color:var(--muted);
+  font-size:clamp(1rem,1.6vw,1.14rem);line-height:1.55;
+}
+.hero-cta{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:1.9rem}
+.btn{
+  display:inline-flex;align-items:center;gap:.5rem;
+  font-family:var(--mono);font-size:.86rem;font-weight:500;
+  padding:.72rem 1.15rem;border-radius:6px;
+  border:1px solid var(--line2);color:var(--ink);background:transparent;
+  cursor:pointer;transition:border-color .18s,background .18s,color .18s;
+}
+.btn:hover{text-decoration:none;border-color:var(--accent-line);background:var(--accent-soft)}
+.btn.primary{background:var(--accent);color:#04110a;border-color:var(--accent);font-weight:600}
+.btn.primary:hover{background:#3ee0a5}
+
+/* ---------- terminal ---------- */
+.terminal{
+  background:var(--surface);
+  border:1px solid var(--line2);
+  border-radius:10px;
+  overflow:hidden;
+  box-shadow:0 24px 60px -30px rgba(0,0,0,.7);
+}
+.terminal-bar{
+  display:flex;align-items:center;gap:.5rem;
+  padding:.6rem .9rem;background:var(--surface2);
+  border-bottom:1px solid var(--line);
+}
+.terminal-bar .dots{display:flex;gap:.4rem}
+.terminal-bar .dots i{width:11px;height:11px;border-radius:50%;display:block;background:#2c342f}
+.terminal-bar .title{font-family:var(--mono);font-size:.72rem;color:var(--faint);margin-left:.4rem}
+.terminal-body{
+  padding:1.1rem 1.2rem;
+  font-family:var(--mono);font-size:.82rem;line-height:1.8;
+  min-height:310px;
+  position:relative;
+}
+.terminal-body::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:repeating-linear-gradient(0deg,rgba(255,255,255,.012) 0 1px,transparent 1px 3px);
+}
+.tl{white-space:pre-wrap;word-break:break-word}
+.tl.cmd{color:var(--ink)}
+.tl.cmd .p{color:var(--accent)}
+.tl.out{color:var(--muted)}
+.tl.blank{height:.55em}
+.cursor{display:inline-block;width:.55em;height:1.05em;background:var(--accent);vertical-align:text-bottom;margin-left:2px;animation:blink 1.05s steps(2) infinite}
+@keyframes blink{0%,49%{opacity:1}50%,100%{opacity:0}}
+
+/* ---------- section scaffolding ---------- */
+section{padding:clamp(3rem,7vh,4.5rem) 0}
+.sec-head{margin-bottom:clamp(1.6rem,4vw,2.4rem)}
+.eyebrow{font-family:var(--mono);font-size:.74rem;color:var(--accent);letter-spacing:.16em;text-transform:uppercase;margin:0 0 .6rem}
+.sec-head h2{margin:0;font-size:clamp(1.8rem,4.4vw,2.9rem);font-weight:700;letter-spacing:-.03em;line-height:1.08}
+.sec-head .lede{margin:.7rem 0 0;color:var(--muted);max-width:60ch}
+
+/* ---------- the loop ---------- */
+.loop{border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.loop .steps{display:flex;flex-wrap:wrap;align-items:center;gap:.6rem 1rem;margin-top:1.4rem}
+.step{
+  font-family:var(--mono);font-size:.86rem;color:var(--ink);
+  background:var(--surface);border:1px solid var(--line2);
+  padding:.55rem .95rem;border-radius:6px;
+}
+.step .n{color:var(--accent);font-weight:600;margin-right:.4rem}
+.arrow{color:var(--faint);font-family:var(--mono)}
+.loop .note{margin-top:1.4rem;color:var(--muted);max-width:60ch}
+
+/* ---------- agents ---------- */
+.agent-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.agent{background:var(--bg2);padding:1.5rem 1.4rem;display:flex;flex-direction:column;gap:.5rem}
+.agent .top{display:flex;justify-content:space-between;align-items:baseline;gap:.5rem}
+.agent .name{font-family:var(--mono);font-weight:700;font-size:1.02rem;color:var(--accent)}
+.agent .stat{font-family:var(--mono);font-size:.66rem;color:var(--accent);background:var(--accent-soft);border:1px solid var(--accent-line);padding:.15rem .5rem;border-radius:999px;white-space:nowrap}
+.agent .role{font-size:.95rem;color:var(--ink);font-weight:500}
+.agent .desc{font-size:.86rem;color:var(--muted);line-height:1.5;flex:1}
+.agent .meta{font-family:var(--mono);font-size:.72rem;color:var(--faint)}
+@media(max-width:820px){.agent-grid{grid-template-columns:1fr}}
+
+/* ---------- systems dossier ---------- */
+.sys{border-top:1px solid var(--line);padding:1.7rem 0;display:grid;grid-template-columns:210px 1fr;gap:clamp(1rem,3vw,2.5rem)}
+.sys:last-child{border-bottom:1px solid var(--line)}
+.sys .id{font-family:var(--mono);font-size:.8rem;color:var(--faint)}
+.sys .name{font-size:1.32rem;font-weight:700;letter-spacing:-.02em;margin:.2rem 0 .15rem}
+.sys .tag{font-family:var(--mono);font-size:.66rem;padding:.14rem .55rem;border-radius:999px;border:1px solid var(--line2);color:var(--muted);white-space:nowrap;display:inline-block}
+.sys .tag.live{color:var(--accent);border-color:var(--accent-line);background:var(--accent-soft)}
+.sys .tag.agent{color:var(--amber);border-color:rgba(240,182,71,.3);background:rgba(240,182,71,.08)}
+.sys .tag.poc{color:#8ab4f8;border-color:rgba(138,180,248,.3);background:rgba(138,180,248,.08)}
+.sys .tag.side{color:var(--muted)}
+.sys .summary{color:var(--muted);margin:.6rem 0 1rem;font-size:.95rem;max-width:64ch}
+.pb{margin:.55rem 0;display:grid;grid-template-columns:86px 1fr;gap:.9rem;align-items:start}
+.pb .lbl{font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;font-weight:600;padding-top:.18rem}
+.pb.problem .lbl{color:var(--amber)}
+.pb.built .lbl{color:var(--accent)}
+.pb .txt{color:var(--muted);font-size:.93rem}
+.pb.built .txt{color:#c9d6cd}
+.pb .txt .tech{font-family:var(--mono);font-size:.78rem;color:var(--faint)}
+@media(max-width:700px){.sys{grid-template-columns:1fr;gap:.6rem}}
+
+/* ---------- side projects ---------- */
+.side-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.1rem}
+.side{background:var(--surface);border:1px solid var(--line2);border-radius:10px;padding:1.25rem 1.3rem}
+.side .name{font-family:var(--mono);font-weight:600;color:var(--ink);font-size:.95rem}
+.side .desc{color:var(--muted);font-size:.88rem;margin:.4rem 0 .6rem}
+.side .tech{font-family:var(--mono);font-size:.72rem;color:var(--faint)}
+@media(max-width:640px){.side-grid{grid-template-columns:1fr}}
+
+/* ---------- stack ---------- */
+.stack-wrap{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem}
+.stack-col{border:1px solid var(--line2);border-radius:10px;padding:1.25rem 1.3rem;background:var(--surface)}
+.stack-col h3{font-family:var(--mono);font-size:.72rem;color:var(--accent);text-transform:uppercase;letter-spacing:.1em;margin:0 0 .6rem;font-weight:600}
+.stack-col .items{font-family:var(--mono);font-size:.84rem;color:var(--muted);line-height:1.9}
+.stack-col .items span{color:var(--ink)}
+@media(max-width:820px){.stack-wrap{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.stack-wrap{grid-template-columns:1fr}}
+
+/* ---------- contact ---------- */
+.contact{border-top:1px solid var(--line)}
+.contact h2{font-size:clamp(2rem,5vw,3.4rem);font-weight:700;letter-spacing:-.03em;margin:0}
+.contact .lead{margin:.8rem 0 1.6rem;color:var(--muted);max-width:52ch}
+.contact-links{display:flex;flex-wrap:wrap;gap:.8rem}
+.mail-big{font-family:var(--mono);font-size:clamp(1.1rem,2.6vw,1.5rem);color:var(--ink);display:inline-block;margin-bottom:1.4rem}
+
+/* ---------- footer ---------- */
+.footer{border-top:1px solid var(--line);margin-top:2rem;padding:1.4rem 0 2rem}
+.footer .inner{max-width:var(--max);margin:0 auto;padding:0 var(--pad);display:flex;justify-content:space-between;flex-wrap:wrap;gap:.6rem;font-family:var(--mono);font-size:.78rem;color:var(--faint)}
+.footer .dot{color:var(--accent)}
+
+/* ---------- reveal ---------- */
+.rv{opacity:0;transform:translateY(16px);transition:opacity .6s cubic-bezier(.22,1,.36,1),transform .6s cubic-bezier(.22,1,.36,1)}
+.rv.on{opacity:1;transform:none}
+
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .rv{opacity:1;transform:none;transition:none}
+  .cursor,.statusbar .dot{animation:none}
+  .terminal-body::after{display:none}
+}
+</style>
 </head>
 <body>
-  <a class="skip" href="#work">Skip to work</a>
 
-  <header class="site-nav" data-nav>
-    <a class="nav-brand" href="#top">Nischal</a>
-    <nav class="nav-links" aria-label="Primary">
-      <a href="#work">Work</a>
-      <a href="#projects">Projects</a>
-      <a href="#contact">Contact</a>
-    </nav>
-  </header>
+<header class="statusbar">
+  <span class="brand"><span class="dot"></span>nischal@pi5:~/portfolio</span>
+  <span class="right">
+    <span>us citizen</span>
+    <span>austin, tx</span>
+  </span>
+</header>
 
-  <main id="top">
-    <section class="hero" aria-label="Introduction">
-      <div class="hero-media" aria-hidden="true">
-        <img src="hero-field.jpg" alt="" class="hero-img" />
-        <div class="hero-wash"></div>
-        <div class="hero-grain"></div>
+<main>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div>
+      <p class="kicker"><span class="tilde">~/</span>whoami</p>
+      <h1>I find problems.<br><span class="accent">I build</span> the systems that solve them.</h1>
+      <p class="sub">Software engineer at Four Hands. I build internal platforms, AI agents, and automation that remove manual work from real operations — Salesforce, D365, EDI, and the glue in between.</p>
+      <div class="hero-cta">
+        <a class="btn primary" href="#systems">see the systems</a>
+        <a class="btn" href="resume.pdf" target="_blank" rel="noopener noreferrer">résumé ↓</a>
+        <a class="btn" href="https://github.com/zkyko" target="_blank" rel="noopener noreferrer">github</a>
       </div>
-
-      <div class="hero-inner">
-        <p class="hero-brand">Nischal Bhandari</p>
-        <h1 class="hero-headline">Systems that hold under real load.</h1>
-        <p class="hero-support">
-          Software engineer in Austin. Automation platforms, enterprise integrations, and grounded AI agents for ops teams that need reliability—not demos.
-        </p>
-        <div class="hero-cta">
-          <a class="btn btn-primary" href="#work">See the work</a>
-          <a class="btn btn-ghost" href="mailto:nischalbhandari73@gmail.com">Email</a>
-        </div>
+    </div>
+    <div class="terminal">
+      <div class="terminal-bar">
+        <div class="dots"><i></i><i></i><i></i></div>
+        <span class="title">bash — nischal@pi5</span>
       </div>
-    </section>
+      <div class="terminal-body" id="term" aria-label="Terminal showing who Nischal is and what he builds"></div>
+    </div>
+  </section>
 
-    <section id="work" class="section work">
-      <header class="section-head">
-        <p class="eyebrow">Experience</p>
-        <h2>Where the work shipped</h2>
-      </header>
+  <!-- THE LOOP -->
+  <section class="loop">
+    <div class="sec-head">
+      <p class="eyebrow">the loop</p>
+      <h2>Every system here started the same way.</h2>
+    </div>
+    <div class="steps">
+      <span class="step"><span class="n">01</span>find a real problem</span>
+      <span class="arrow">→</span>
+      <span class="step"><span class="n">02</span>build the thing</span>
+      <span class="arrow">→</span>
+      <span class="step"><span class="n">03</span>ship it</span>
+      <span class="arrow">→</span>
+      <span class="step"><span class="n">04</span>watch where it breaks</span>
+      <span class="arrow">→</span>
+      <span class="step"><span class="n">05</span>do it again</span>
+    </div>
+    <p class="note">I don't build demos. I build for ops teams that need the thing to keep working — and I stay with it after it ships.</p>
+  </section>
 
-      <article class="role" data-reveal>
-        <div class="role-aside">
-          <h3>Four Hands</h3>
-          <p class="role-title">Software Engineer</p>
-          <p class="role-when">Jul 2025 – Present</p>
-          <p class="role-place">Austin, TX</p>
-        </div>
-        <div class="role-main">
-          <p class="role-lead">Promoted from QA Automation Intern. Own automation platforms and EDI product tools used by Sales Ops and EDI engineers.</p>
-          <ul>
-            <li>Playwright/Selenium frameworks across D365 F&amp;O, Salesforce, and eCommerce — <strong>500+ E2E tests</strong>, Azure DevOps CI, BrowserStack Automate.</li>
-            <li>Shipped <strong>FH Connect Hub</strong>: Mentis GraphQL autofill, Azure OCR, Jira/Confluence, Entra ID, Playwright, VPS deploy.</li>
-            <li>Grounded EDI assistant — n8n tool-calling, local PII scrub, on-VPS Ollama/Qwen (llama.cpp fallback).</li>
-            <li>Python X12 compare workbench for CLEO→D365 migration (27 partners); n8n error triage; Next.js lab showcase.</li>
-          </ul>
-        </div>
-      </article>
-
-      <article class="role" data-reveal>
-        <div class="role-aside">
-          <h3>Prosway</h3>
-          <p class="role-title">Full-Stack Engineer</p>
-          <p class="role-when">Contract / Intern</p>
-        </div>
-        <div class="role-main">
-          <ul>
-            <li>Production real-estate platform — FastAPI, PostgreSQL, auth, Pytest, responsive UI.</li>
-          </ul>
-        </div>
-      </article>
-
-      <article class="role" data-reveal>
-        <div class="role-aside">
-          <h3>ZT Systems</h3>
-          <p class="role-title">QA — Server Validation</p>
-          <p class="role-when">Internship</p>
-        </div>
-        <div class="role-main">
-          <ul>
-            <li>Python/Bash RAID &amp; BIOS automation — ~30% less manual effort; 75+ hardware config issues resolved with engineering.</li>
-          </ul>
-        </div>
-      </article>
-    </section>
-
-    <section id="projects" class="section projects">
-      <header class="section-head">
-        <p class="eyebrow">Projects</p>
-        <h2>Tools I designed end to end</h2>
-      </header>
-
-      <div class="project-rail">
-        <a class="proj" href="https://github.com/zkyko/fh-Axis" target="_blank" rel="noopener noreferrer" data-reveal>
-          <span class="proj-num">01</span>
-          <h3>FH-Axis / QA Studio</h3>
-          <p>Automation execution platform — author, orchestrate, and run large suites with CI reporting.</p>
-          <span class="proj-meta">TypeScript · Playwright</span>
-        </a>
-        <a class="proj" href="https://github.com/zkyko/D365-Recorder" target="_blank" rel="noopener noreferrer" data-reveal>
-          <span class="proj-num">02</span>
-          <h3>D365 Recorder</h3>
-          <p>Record → generate → run for Dynamics 365 F&amp;O. Locator registry for stable enterprise UI tests.</p>
-          <span class="proj-meta">Playwright · D365</span>
-        </a>
-        <div class="proj" data-reveal>
-          <span class="proj-num">03</span>
-          <h3>Four Hands EDI Lab</h3>
-          <p>Onboarding portal, X12 workbench, n8n triage, local LLM assistant, stakeholder showcase on VPS.</p>
-          <span class="proj-meta">Node · Python · Ollama</span>
-        </div>
-        <a class="proj" href="https://github.com/zkyko/QA-playwright-automation" target="_blank" rel="noopener noreferrer" data-reveal>
-          <span class="proj-num">04</span>
-          <h3>Playwright + Actions</h3>
-          <p>Reusable template: scheduled runs, artifacts, failure triage in GitHub Actions.</p>
-          <span class="proj-meta">Playwright · CI</span>
-        </a>
-        <div class="proj" data-reveal>
-          <span class="proj-num">05</span>
-          <h3>Macro Dashboard</h3>
-          <p>Streamlit research assistant — FRED data, Fed speeches, LLM-mapped natural-language charts.</p>
-          <span class="proj-meta">Python · LLM</span>
-        </div>
-        <a class="proj" href="https://github.com/zkyko/MCP" target="_blank" rel="noopener noreferrer" data-reveal>
-          <span class="proj-num">06</span>
-          <h3>MCP Experiments</h3>
-          <p>Model Context Protocol prototypes for orchestration and test/data analysis.</p>
-          <span class="proj-meta">MCP · Tooling</span>
-        </a>
+  <!-- AGENTS -->
+  <section id="agents">
+    <div class="sec-head">
+      <p class="eyebrow">agents</p>
+      <h2>Software I wrote that does software work.</h2>
+      <p class="lede">Three autonomous agents, each wired into the real toolchain — Jira, Azure DevOps, Confluence, BrowserStack, Foundry.</p>
+    </div>
+    <div class="agent-grid">
+      <div class="agent rv">
+        <div class="top"><span class="name">pablo</span><span class="stat">running</span></div>
+        <div class="role">PR reviewer</div>
+        <div class="desc">Reviews every SF Automation PR against a Confluence knowledge base and comments before a human even looks.</div>
+        <div class="meta">gpt-4-1 · Azure AI Search · Logic Apps</div>
       </div>
-    </section>
-
-    <section id="skills" class="section skills">
-      <header class="section-head">
-        <p class="eyebrow">Stack</p>
-        <h2>What I reach for</h2>
-      </header>
-      <p class="skills-line" data-reveal>
-        <span>TypeScript</span><span>Python</span><span>Playwright</span><span>Node</span><span>FastAPI</span><span>React</span><span>Next.js</span><span>PostgreSQL</span><span>n8n</span><span>Ollama</span><span>Azure DevOps</span><span>BrowserStack</span><span>Jira</span><span>GraphQL</span><span>EDI / X12</span><span>D365 F&amp;O</span>
-      </p>
-    </section>
-
-    <section id="contact" class="section contact">
-      <div class="contact-panel" data-reveal>
-        <p class="eyebrow">Contact</p>
-        <h2>Let’s talk.</h2>
-        <p class="contact-lead">Open to software engineering and applied AI roles — Austin or London. Visa sponsorship welcome. Authorized to work in the U.S.</p>
-        <div class="contact-links">
-          <a href="mailto:nischalbhandari73@gmail.com">nischalbhandari73@gmail.com</a>
-          <a href="tel:+15127792564">(512) 779-2564</a>
-          <a href="https://github.com/zkyko" target="_blank" rel="noopener noreferrer">GitHub</a>
-          <a href="https://www.linkedin.com/in/nischal-bhandari-09187a29b/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-        </div>
-        <p class="edu">B.S. Computer Science &amp; Mathematics — Texas State University, 2025</p>
+      <div class="agent rv">
+        <div class="top"><span class="name">salesforceqa</span><span class="stat">running</span></div>
+        <div class="role">test generation + execution</div>
+        <div class="desc">Reads a Jira ticket, generates a Playwright spec against real Stage, runs it, and opens a PR with a real failure diagnosis.</div>
+        <div class="meta">claude-sonnet-5 · Azure DevOps · BrowserStack</div>
       </div>
-    </section>
-  </main>
+      <div class="agent rv">
+        <div class="top"><span class="name">eddie</span><span class="stat">running</span></div>
+        <div class="role">developer</div>
+        <div class="desc">Takes an approved request → branch → code → tests → draft PR, deployed to dev for a human to review and merge.</div>
+        <div class="meta">gpt-5.1-codex-mini · Foundry · Azure DevOps</div>
+      </div>
+    </div>
+  </section>
 
-  <footer class="site-footer">
+  <!-- SYSTEMS -->
+  <section id="systems">
+    <div class="sec-head">
+      <p class="eyebrow">systems</p>
+      <h2>Problems I found, and what I built.</h2>
+      <p class="lede">Each one started as a real, annoying bottleneck in how work actually got done.</p>
+    </div>
+
+    <div class="sys rv">
+      <div>
+        <div class="id">/work/01</div>
+        <div class="name">FH Connect Hub</div>
+        <span class="tag live">live · production</span>
+      </div>
+      <div>
+        <p class="summary">The internal EDI support hub — mail, Jira, Confluence, and customer data in one app, with an AI assistant.</p>
+        <div class="pb problem"><span class="lbl">PROBLEM</span><span class="txt">EDI support was scattered across an Outlook mailbox, Jira, Confluence, and Mentis — no single view, every partner email triaged by hand.</span></div>
+        <div class="pb built"><span class="lbl">BUILT</span><span class="txt">One app that unifies them. Every email is AI-summarized, tagged, and tied to a customer; one click turns it into a Jira ticket; resolved tickets become Confluence fix notes. <span class="tech">Node/Express · React · Azure SQL · Azure AI Foundry · Mentis GraphQL · Logic Apps</span></span></div>
+      </div>
+    </div>
+
+    <div class="sys rv">
+      <div>
+        <div class="id">/work/02</div>
+        <div class="name">fh-d365-mcp</div>
+        <span class="tag live">mcp server</span>
+      </div>
+      <div>
+        <p class="summary">An MCP server that lets AI agents read D365 Finance &amp; Operations — without a browser or hand-written OData.</p>
+        <div class="pb problem"><span class="lbl">PROBLEM</span><span class="txt">QA and AI assistants had to open D365 in a browser, or hand-write OData calls, just to check a customer record or entity schema.</span></div>
+        <div class="pb built"><span class="lbl">BUILT</span><span class="txt">A read-only MCP server exposing entities, schemas, enums, and labels — with a hard policy gate rejecting anything but read-only Four Hands hosts before a token is ever attached. <span class="tech">Python · MCP · D365 OData · Key Vault</span></span></div>
+      </div>
+    </div>
+
+    <div class="sys rv">
+      <div>
+        <div class="id">/work/03</div>
+        <div class="name">Account Insights</div>
+        <span class="tag poc">proof of concept</span>
+      </div>
+      <div>
+        <p class="summary">A quick-glance account health view inside Salesforce, scored from real Mentis purchasing data.</p>
+        <div class="pb problem"><span class="lbl">PROBLEM</span><span class="txt">Reps had no fast way to see an account's purchasing, product, and inventory health before a visit.</span></div>
+        <div class="pb built"><span class="lbl">BUILT</span><span class="txt">A Salesforce LWC + Apex app that snapshots Mentis data into a weighted health score, with a printable PDF brief — reconciled exact against production data. <span class="tech">LWC · Apex · Mentis GraphQL · Salesforce</span></span></div>
+      </div>
+    </div>
+
+    <div class="sys rv">
+      <div>
+        <div class="id">/work/04</div>
+        <div class="name">QA Hub</div>
+        <span class="tag live">dashboard</span>
+      </div>
+      <div>
+        <p class="summary">Real-time visibility into CI pipelines as living agents, with run history and pending approvals.</p>
+        <div class="pb problem"><span class="lbl">PROBLEM</span><span class="txt">Pipelines were invisible — you couldn't tell "idle because nothing qualified" from "actually down."</span></div>
+        <div class="pb built"><span class="lbl">BUILT</span><span class="txt">A dashboard that maps each pipeline job to a live agent with status, run history, and a real pending-approvals panel. <span class="tech">Node · Azure DevOps · Logic Apps</span></span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SIDE PROJECTS -->
+  <section id="side">
+    <div class="sec-head">
+      <p class="eyebrow">side projects</p>
+      <h2>Things I built to learn a system properly.</h2>
+    </div>
+    <div class="side-grid">
+      <div class="side rv">
+        <div class="name">stock-trading-app</div>
+        <div class="desc">A backend-first brokerage model — normalized schema, migrations, and JWT auth.</div>
+        <div class="tech">FastAPI · SQLAlchemy · PostgreSQL · Alembic</div>
+      </div>
+      <div class="side rv">
+        <div class="name">d365-recorder</div>
+        <div class="desc">Record → generate → run for Dynamics 365 F&amp;O, with a locator registry for stable enterprise UI tests.</div>
+        <div class="tech">Electron · Playwright · D365</div>
+      </div>
+      <div class="side rv">
+        <div class="name">macro-dashboard</div>
+        <div class="desc">Streamlit research assistant — natural language → FRED charts, Fed speech summaries, LLM Q&amp;A.</div>
+        <div class="tech">Python · Streamlit · FRED API · LLM</div>
+      </div>
+      <div class="side rv">
+        <div class="name">mcp-experiments</div>
+        <div class="desc">Model Context Protocol prototypes for orchestration and test/data analysis.</div>
+        <div class="tech">MCP · TypeScript · Python</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STACK -->
+  <section id="stack">
+    <div class="sec-head">
+      <p class="eyebrow">stack</p>
+      <h2>What I reach for.</h2>
+    </div>
+    <div class="stack-wrap">
+      <div class="stack-col rv">
+        <h3>languages</h3>
+        <div class="items">TypeScript · JavaScript · <span>Python</span> · SQL · Apex</div>
+      </div>
+      <div class="stack-col rv">
+        <h3>web / backend</h3>
+        <div class="items">Node.js · Express · FastAPI · <span>React</span> · Next.js · Angular · LWC</div>
+      </div>
+      <div class="stack-col rv">
+        <h3>data / ai</h3>
+        <div class="items">PostgreSQL · Azure SQL · SQLAlchemy · <span>Azure AI Foundry</span> · Ollama · MCP</div>
+      </div>
+      <div class="stack-col rv">
+        <h3>automation / qa</h3>
+        <div class="items"><span>Playwright</span> · BrowserStack · Azure DevOps · GitHub Actions · n8n · Logic Apps</div>
+      </div>
+      <div class="stack-col rv">
+        <h3>platform</h3>
+        <div class="items">Docker · Azure App Service · systemd · <span>Linux</span> · Raspberry Pi</div>
+      </div>
+      <div class="stack-col rv">
+        <h3>integrations</h3>
+        <div class="items">GraphQL (Mentis) · Jira · Confluence · <span>Salesforce</span> · D365 F&amp;O · EDI / X12</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="contact">
+    <div class="sec-head">
+      <p class="eyebrow">contact</p>
+      <h2>Open to software engineering and applied AI roles.</h2>
+    </div>
+    <p class="lead">U.S. citizen, clear for ITAR work. Based in Austin, TX — open to relocating, including South Texas.</p>
+    <a class="mail-big" href="mailto:nischalbhandari73@gmail.com">nischalbhandari73@gmail.com</a>
+    <div class="contact-links">
+      <a class="btn primary" href="resume.pdf" target="_blank" rel="noopener noreferrer">résumé (pdf)</a>
+      <a class="btn" href="https://github.com/zkyko" target="_blank" rel="noopener noreferrer">github.com/zkyko</a>
+      <a class="btn" href="https://www.linkedin.com/in/nischal-bhandari-09187a29b/" target="_blank" rel="noopener noreferrer">linkedin</a>
+      <a class="btn" href="tel:+15127792564">(512) 779-2564</a>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="inner">
+    <span id="hostline"><span class="dot">●</span> running — self-hosted on a Raspberry Pi 5 · Caddy · systemd</span>
     <span>© 2026 Nischal Bhandari</span>
-    <span class="mark">zkyko</span>
-  </footer>
+  </div>
+</footer>
 
-  <script src="script.js"></script>
+<script>
+(function(){
+  var term = document.getElementById('term');
+  var lines = [
+    {t:'cmd', v:'$ whoami'},
+    {t:'out', v:'nischal bhandari — software engineer · austin, tx'},
+    {t:'blank'},
+    {t:'cmd', v:'$ cat problems_i_see'},
+    {t:'out', v:'· manual work that should be automated'},
+    {t:'out', v:'· data scattered across four systems'},
+    {t:'out', v:'· tests written blind, against the wrong page'},
+    {t:'blank'},
+    {t:'cmd', v:'$ cat what_i_build'},
+    {t:'out', v:'· agents that do the work'},
+    {t:'out', v:'· platforms that unify the data'},
+    {t:'out', v:'· automation that stays out of the way'},
+    {t:'blank'},
+    {t:'cmd', v:'$ ls work/'},
+    {t:'out', v:'fh-connect-hub    salesforceqa    eddie    pablo'},
+    {t:'out', v:'fh-d365-mcp       account-insights    qa-hub'}
+  ];
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function el(cls){var d=document.createElement('div');d.className='tl '+cls;return d;}
+
+  if(reduce){
+    lines.forEach(function(l){
+      if(l.t==='blank'){term.appendChild(el('blank'));return;}
+      var d=el(l.t);
+      if(l.t==='cmd'){var p=document.createElement('span');p.className='p';p.textContent='$ ';d.appendChild(p);}
+      d.appendChild(document.createTextNode(l.v.slice(l.t==='cmd'?2:0)));
+      term.appendChild(d);
+    });
+    return;
+  }
+
+  var cur=el('out');var cs=document.createElement('span');cs.className='cursor';cur.appendChild(cs);term.appendChild(cur);
+  var li=0;
+  function nextLine(){
+    if(li>=lines.length)return;
+    var l=lines[li++];var d;
+    if(l.t==='blank'){d=el('blank');term.insertBefore(d,cur);window.setTimeout(nextLine,140);return;}
+    d=el(l.t);
+    if(l.t==='cmd'){var p=document.createElement('span');p.className='p';p.textContent='$ ';d.appendChild(p);}
+    term.insertBefore(d,cur);
+    type(l.v, d);
+  }
+  function type(text, d){
+    var i=0;
+    (function step(){
+      if(i>=text.length){window.setTimeout(nextLine,200);return;}
+      var n=Math.min(2, text.length-i);
+      d.appendChild(document.createTextNode(text.slice(i,i+n)));
+      i+=n;
+      window.setTimeout(step, 22);
+    })();
+  }
+  nextLine();
+
+  var rvs=document.querySelectorAll('.rv');
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target);}});
+    },{rootMargin:'0px 0px -8% 0px',threshold:.08});
+    rvs.forEach(function(n){io.observe(n);});
+  }else{
+    rvs.forEach(function(n){n.classList.add('on');});
+  }
+})();
+</script>
+<script>
+(function(){var h=(location.hostname||"").toLowerCase();if(/github\.(io|com)/.test(h)){var e=document.getElementById("hostline");if(e)e.innerHTML='<span class="dot">●</span> running — served from GitHub Pages · original self-hosted on a Raspberry Pi 5';}})();
+</script>
 </body>
 </html>
